@@ -1,7 +1,7 @@
 {
   "customers": [
-    { "dni": "1140891037", "name": "Fernando", "age": 22 },
-    { "dni": "32730600", "name": "Teresa", "age": 49 },
-    { "dni": "97022123347", "name": "N.N", "age": 22 }
+    { "dni": "123456", "name": "Fernando", "age": 22 },
+    { "dni": "654321", "name": "Teresa", "age": 49 },
+    { "dni": "789456123", "name": "N.N", "age": 22 }
   ]
 }

@@ -3,18 +3,21 @@ import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
 import { setPropsAsInitial } from '../helpers/setPropsAsInitial';
 
-const isRequired = value => {
-    const res = "Este campo es requerido!"; 
-    
-    if(value === undefined) {
-        return res;
+import CustomersActions from './CustomersActions';
 
-    } else if( !value.trim() ) {
-        return res;
-        
-    } else {
-        return false;
+const validate = values => {
+    const error = {};
+
+    if(!values.dni) {
+        error.dni = "El campo DNI es requerido!";
+
+    } 
+    
+    if(!values.name) {
+        error.name = "El campo nombre es requerido!";
     }
+
+    return error;
 };
 
 const isNumber = value => (
@@ -31,14 +34,18 @@ const MyField = ({ label, name, input, meta, type }) => (
     </div>
 );
 
-const CustomerEdit = ({ name, dni, age }) => {
+const CustomerEdit = ({ handleSubmit, submitting, onBack }) => {
     return (
         <div>
             <h2>Edición del Cliente</h2>
-            <form action="">
-                <Field label="DNI" name="dni" component={MyField} validate={[isNumber, isRequired]} />
-                <Field label="Nombre" name="name" component={MyField} validate={ isRequired } />
+            <form onSubmit={handleSubmit}>
+                <Field label="DNI" name="dni" component={MyField} />
+                <Field label="Nombre" name="name" component={MyField} />
                 <Field label="Edad" name="age" component={MyField} type="number" validate={ isNumber } />
+                <CustomersActions>
+                    <button type="reset" onClick={onBack}>Cancelar</button>
+                    <button type="submit" disabled={submitting}>Aceptar</button>
+                </CustomersActions>
             </form>
         </div>
     );
@@ -48,8 +55,9 @@ CustomerEdit.propTypes = {
     name: PropTypes.string,
     dni: PropTypes.string,
     age: PropTypes.number,
+    onBack: PropTypes.func.isRequired,
 };
 
-const CustomerEditForm = reduxForm({ form: 'CustomerEdit' })(CustomerEdit);
+const CustomerEditForm = reduxForm({ form: 'CustomerEdit', validate })(CustomerEdit);
 
 export default setPropsAsInitial(CustomerEditForm);

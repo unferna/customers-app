@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 
 // Components
 import AppFrame from '../components/AppFrame';
-import CustomerActions from '../components/CustomerActions';
+import CustomersActions from '../components/CustomersActions';
 
 class HomeContainer extends Component {
     handleOnClick = () => {
@@ -18,9 +18,9 @@ class HomeContainer extends Component {
                     body={
                         <div>
                             Esta es la Pantalla Inicial
-                            <CustomerActions>
+                            <CustomersActions>
                                 <button onClick={this.handleOnClick}>Listado de Clientes</button>
-                            </CustomerActions>
+                            </CustomersActions>
                         </div>
                     }
                 />

@@ -12,7 +12,7 @@ import { getCustomers } from '../selectors/customers';
 // Components
 import AppFrame from '../components/AppFrame';
 import CustomersList from '../components/CustomerList';
-import CustomerActions from '../components/CustomerActions';
+import CustomersActions from '../components/CustomersActions';
 
 class CustomersContainer extends Component {
     componentDidMount() {
@@ -26,9 +26,9 @@ class CustomersContainer extends Component {
     renderBody = customers => (
         <div>
             <CustomersList customers={customers} urlPath="customers/" />
-            <CustomerActions>
+            <CustomersActions>
                 <button onClick={this.handleAddNew}>Nuevo Cliente</button>
-            </CustomerActions>
+            </CustomersActions>
         </div>
     )
 

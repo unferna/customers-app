@@ -11,9 +11,24 @@ import CustomerData from '../components/CustomerData';
 // Selectors
 import { getCustomerByDni } from '../selectors/customers';
 
+// Actions
+import { fetchCustomers } from '../actions/fetchCustomers';
+import { updateCustomer } from '../actions/updateCustomer';
+
 class CustomerContainer extends Component {
+
+    componentDidMount() {
+        if( !this.props.customer ) {
+            this.props.fetchCustomers();
+        }
+    }
+
     handleSubmit = values => {
-        console.log(JSON.stringify(values));
+        const to_edit = values;
+        to_edit.age = parseInt(values.age);
+
+        const { id } = to_edit;
+        this.props.updateCustomer(id, to_edit);
     }
 
     handleOnBack = () => {
@@ -48,11 +63,18 @@ class CustomerContainer extends Component {
 
 CustomerContainer.propTypes = {
     dni: PropTypes.string.isRequired,
-    customer: PropTypes.object.isRequired,
+    customer: PropTypes.object,
+    fetchCustomers: PropTypes.func.isRequired,
+    updateCustomer: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, props) => ({
     customer: getCustomerByDni(state, props),
 });
 
-export default withRouter( connect(mapStateToProps, null) (CustomerContainer) );
+const mapDispatchToProps = dispatch => ({
+    fetchCustomers: () => dispatch(fetchCustomers()),
+    updateCustomer: (id, customer) => dispatch(updateCustomer(id, customer))
+});
+
+export default withRouter( connect(mapStateToProps, mapDispatchToProps) (CustomerContainer) );

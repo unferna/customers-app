@@ -28,11 +28,15 @@ class CustomerContainer extends Component {
         to_edit.age = parseInt(values.age);
 
         const { id } = to_edit;
-        this.props.updateCustomer(id, to_edit);
+        return this.props.updateCustomer(id, to_edit);
     }
 
     handleOnBack = () => {
         this.props.history.goBack();
+    }
+
+    handleOnSubmitSuccess = () => {
+        this.handleOnBack();
     }
 
     renderBody = () => (
@@ -41,13 +45,16 @@ class CustomerContainer extends Component {
             children={
                 ({ match }) => { 
                     const CustomerControl = match ? CustomerEdit : CustomerData;
-                    return <CustomerControl { ...this.props.customer } onSubmit={this.handleSubmit} onBack={this.handleOnBack} />  // Spread parameters
+                    return <CustomerControl 
+                        { ...this.props.customer } 
+                        onSubmit={this.handleSubmit} 
+                        onSubmitSuccess={this.handleOnSubmitSuccess}
+                        onBack={this.handleOnBack} 
+                        />  // Spread parameters
                 }
             }
         />
     )
-
-    // <p>Datos del cliente {this.props.customer.name}</p>
 
     render() {
         return (

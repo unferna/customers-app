@@ -24,11 +24,8 @@ class CustomerContainer extends Component {
     }
 
     handleSubmit = values => {
-        const to_edit = values;
-        to_edit.age = parseInt(values.age);
-
-        const { id } = to_edit;
-        return this.props.updateCustomer(id, to_edit);
+        const { id } = values;
+        return this.props.updateCustomer(id, values);
     }
 
     handleOnBack = () => {

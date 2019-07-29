@@ -9,4 +9,12 @@ export const putCustomer = (id, customer) => fetch(`${urlCustomers}/${id}`, {
     headers: new Headers({
         'Content-type': 'application/json'
     })
-}).then(res => res.json());
+})
+.then(res => res.json())
+.then(response => {
+    if(response.error) {
+        return Promise.reject(response.validation);
+    }
+    
+    return response;
+});

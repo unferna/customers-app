@@ -26,8 +26,8 @@ class CustomerContainer extends Component {
 
     handleSubmit = values => {
         const { id } = values;
-        return this.props.updateCustomer(id, values).then(res => {
-            if(res.error) throw new SubmissionError(res.payload);
+        return this.props.updateCustomer(id, values).catch(payload => {
+            if(payload) throw new SubmissionError(payload);
         });
     }
 

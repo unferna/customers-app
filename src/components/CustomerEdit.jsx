@@ -46,7 +46,7 @@ const CustomerEdit = ({ handleSubmit, submitting, onBack }) => {
             <form onSubmit={handleSubmit}>
                 <Field label="DNI" name="dni" component={MyField} />
                 <Field label="Nombre" name="name" component={MyField} parse={ toUpper } format={ toLower }  />
-                <Field label="Edad" name="age" component={MyField} type="number" validate={ isNumber } parse={ toNumber } normalize={onlyGrow} />
+                <Field label="Edad" name="age" component={MyField} type="number" validate={ isNumber } parse={ toNumber }/>
                 <CustomersActions>
                     <button type="reset" onClick={onBack}>Cancelar</button>
                     <button type="submit" disabled={submitting}>Aceptar</button>

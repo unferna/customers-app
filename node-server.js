@@ -22,16 +22,15 @@ server.put('/customers/300000001', (req, res) => {
         // console.log( JSON.stringify(body) )
 
         if( body.age && body.age > 18) {
-            console.log('Error de validación');
-
             return res.send({
                 error: true,
                 validation: {
                     age: 'Debe ser menor de edad',
+                    name: 'El nombre es incorrecto'
                 }
             });
         } else {
-            res.send('ok');
+            res.send({msg: 'ok', error: false});
         }
     });
 });

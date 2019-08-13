@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
+import { Prompt } from 'react-router-dom';
 import { setPropsAsInitial } from '../helpers/setPropsAsInitial';
 
 import CustomersActions from './CustomersActions';
@@ -39,7 +40,7 @@ const toUpper = value => value && value.toUpperCase();
 const toLower = value => value && value.toLowerCase();
 const onlyGrow = (value, previousValue, values) => value && previousValue && (value > previousValue ? value : previousValue);
 
-const CustomerEdit = ({ handleSubmit, submitting, onBack }) => {
+const CustomerEdit = ({ handleSubmit, onBack, pristine, submitSucceeded, submitting }) => {
     return (
         <div>
             <h2>Edición del Cliente</h2>
@@ -48,9 +49,13 @@ const CustomerEdit = ({ handleSubmit, submitting, onBack }) => {
                 <Field label="Nombre" name="name" component={MyField} parse={ toUpper } format={ toLower }  />
                 <Field label="Edad" name="age" component={MyField} type="number" validate={ isNumber } parse={ toNumber }/>
                 <CustomersActions>
-                    <button type="reset" onClick={onBack}>Cancelar</button>
-                    <button type="submit" disabled={submitting}>Aceptar</button>
+                    <button type="button" disabled={ submitting } onClick={onBack}>Cancelar</button>
+                    <button type="submit" disabled={ pristine || submitting }>Aceptar</button>
                 </CustomersActions>
+                <Prompt 
+                    when={ pristine && submitSucceeded }
+                    message="Se perderán los datos..."
+                />
             </form>
         </div>
     );

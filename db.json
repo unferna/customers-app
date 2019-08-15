@@ -23,6 +23,18 @@
       "name": "FERNANDO",
       "age": 19,
       "id": "p5H6L2W"
+    },
+    {
+      "dni": "100000",
+      "name": "NO SE",
+      "age": 22,
+      "id": "uX-rTPA"
+    },
+    {
+      "dni": "98761234",
+      "name": "SI SE",
+      "age": 19,
+      "id": "QqJHpme"
     }
   ]
 }

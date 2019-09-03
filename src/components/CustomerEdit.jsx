@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
 import { Prompt } from 'react-router-dom';
@@ -38,28 +38,36 @@ const MyField = ({ label, name, input, meta, type }) => (
 const toNumber = value => value && Number(value);
 const toUpper = value => value && value.toUpperCase();
 const toLower = value => value && value.toLowerCase();
-const onlyGrow = (value, previousValue, values) => value && previousValue && (value > previousValue ? value : previousValue);
 
-const CustomerEdit = ({ handleSubmit, onBack, pristine, submitSucceeded, submitting }) => {
-    return (
-        <div>
-            <h2>Edición del Cliente</h2>
-            <form onSubmit={handleSubmit}>
-                <Field label="DNI" name="dni" component={MyField} />
-                <Field label="Nombre" name="name" component={MyField} parse={ toUpper } format={ toLower }  />
-                <Field label="Edad" name="age" component={MyField} type="number" validate={ isNumber } parse={ toNumber }/>
-                <CustomersActions>
-                    <button type="button" disabled={ submitting } onClick={onBack}>Cancelar</button>
-                    <button type="submit" disabled={ pristine || submitting }>Aceptar</button>
-                </CustomersActions>
-                <Prompt 
-                    when={ pristine && submitSucceeded }
-                    message="Se perderán los datos..."
-                />
-            </form>
-        </div>
-    );
-};
+class CustomerEdit extends Component {
+    componentDidMount() {
+        if( this.textBox ) this.textBox.focus();
+    }
+    
+    render() {
+        const { handleSubmit, onBack, pristine, submitSucceeded, submitting } = this.props;
+
+        return (
+            <div>
+                <h2>Edición del Cliente</h2>
+                Text Focus: <input type="text" ref={ textBox => this.textBox = textBox } />
+                <form onSubmit={handleSubmit}>
+                    <Field label="DNI" name="dni" component={MyField} />
+                    <Field label="Nombre" name="name" component={MyField} parse={ toUpper } format={ toLower }  />
+                    <Field label="Edad" name="age" component={MyField} type="number" validate={ isNumber } parse={ toNumber }/>
+                    <CustomersActions>
+                        <button type="button" disabled={ submitting } onClick={onBack}>Cancelar</button>
+                        <button type="submit" disabled={ pristine || submitting }>Aceptar</button>
+                    </CustomersActions>
+                    <Prompt 
+                        when={ !pristine && !submitSucceeded }
+                        message="Se perderán los datos..."
+                    />
+                </form>
+            </div>
+        );
+    }
+}
 
 CustomerEdit.propTypes = {
     name: PropTypes.string,

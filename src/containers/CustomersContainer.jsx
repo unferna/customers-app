@@ -13,11 +13,10 @@ import { getCustomers } from '../selectors/customers';
 import AppFrame from '../components/AppFrame';
 import CustomersList from '../components/CustomerList';
 import CustomersActions from '../components/CustomersActions';
-import NewCustomerContainer from './NewCustomerContainer';
 
 class CustomersContainer extends Component {
     componentDidMount() {
-        if( this.props.customers.length == 0 ) {
+        if( this.props.customers.length === 0 ) {
             this.props.fetchCustomers();
         }
     }

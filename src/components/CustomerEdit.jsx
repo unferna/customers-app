@@ -25,24 +25,31 @@ const isNumber = value => (
     isNaN(Number(value)) && "Este campo debe ser numerico!"
 );
 
-const MyField = ({ label, name, input, meta, type }) => (
-    <div>
-        <label htmlFor={name}>{label}: </label>
-        <input { ...input } type={type || "text"} />
-        {
-            meta.touched && meta.error && <span>{ meta.error }</span>
-        }
-    </div>
-);
-
 const toNumber = value => value && Number(value);
 const toUpper = value => value && value.toUpperCase();
 const toLower = value => value && value.toLowerCase();
 
 class CustomerEdit extends Component {
     componentDidMount() {
-        if( this.textBox ) this.textBox.focus();
+        if( this.textToFocus ) {
+            this.textToFocus.focus();
+        }
     }
+
+    renderField = ({ label, name, input, meta, type, withFocus }) => (
+        <div>
+            <label htmlFor={name}>{label}: </label>
+            <input 
+                { ...input } 
+                type={type || "text"} 
+                ref={ withFocus && (textToFocus => this.textToFocus = textToFocus) }
+            />
+            {
+                meta.touched && meta.error && <span>{ meta.error }</span>
+            }
+        </div>
+        
+    );
     
     render() {
         const { handleSubmit, onBack, pristine, submitSucceeded, submitting } = this.props;
@@ -50,11 +57,28 @@ class CustomerEdit extends Component {
         return (
             <div>
                 <h2>Edición del Cliente</h2>
-                Text Focus: <input type="text" ref={ textBox => this.textBox = textBox } />
                 <form onSubmit={handleSubmit}>
-                    <Field label="DNI" name="dni" component={MyField} />
-                    <Field label="Nombre" name="name" component={MyField} parse={ toUpper } format={ toLower }  />
-                    <Field label="Edad" name="age" component={MyField} type="number" validate={ isNumber } parse={ toNumber }/>
+                    <Field 
+                        label="DNI" 
+                        name="dni" 
+                        component={ this.renderField } 
+                        withFocus // Properties without values always are initialized as true
+                    />
+                    <Field
+                        label="Nombre" 
+                        name="name" 
+                        component={ this.renderField } 
+                        parse={ toUpper } 
+                        format={ toLower }  
+                    />
+                    <Field 
+                        label="Edad" 
+                        name="age" 
+                        component={ this.renderField } 
+                        type="number" 
+                        validate={ isNumber } 
+                        parse={ toNumber }
+                    />
                     <CustomersActions>
                         <button type="button" disabled={ submitting } onClick={onBack}>Cancelar</button>
                         <button type="submit" disabled={ pristine || submitting }>Aceptar</button>

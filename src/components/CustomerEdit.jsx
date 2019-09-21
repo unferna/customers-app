@@ -26,8 +26,6 @@ const isNumber = value => (
 );
 
 const toNumber = value => value && Number(value);
-const toUpper = value => value && value.toUpperCase();
-const toLower = value => value && value.toLowerCase();
 
 class CustomerEdit extends Component {
     componentDidMount() {
@@ -40,8 +38,8 @@ class CustomerEdit extends Component {
         <div>
             <label htmlFor={name}>{label}: </label>
             <input 
-                { ...input } 
                 type={type || "text"} 
+                { ...input } 
                 ref={ withFocus && (textToFocus => this.textToFocus = textToFocus) }
             />
             {
@@ -68,8 +66,6 @@ class CustomerEdit extends Component {
                         label="Nombre" 
                         name="name" 
                         component={ this.renderField } 
-                        parse={ toUpper } 
-                        format={ toLower }  
                     />
                     <Field 
                         label="Edad" 

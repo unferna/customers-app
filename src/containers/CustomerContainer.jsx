@@ -15,9 +15,9 @@ import { getCustomerByDni } from '../selectors/customers';
 // Actions
 import { fetchCustomers } from '../actions/fetchCustomers';
 import { updateCustomer } from '../actions/updateCustomer';
+import { deleteCustomer } from '../actions/deleteCustomer';
 
 class CustomerContainer extends Component {
-
     componentDidMount() {
         if( !this.props.customer ) {
             this.props.fetchCustomers();
@@ -35,8 +35,10 @@ class CustomerContainer extends Component {
         this.props.history.goBack();
     }
 
-    handleOnDelete = () => {
-        console.log("handle on delete");
+    handleOnDelete = id => {
+        this.props.deleteCustomer(id).then(id => {
+            this.props.history.goBack();
+        });
     }
 
     handleOnSubmitSuccess = () => {
@@ -92,6 +94,7 @@ CustomerContainer.propTypes = {
     customer: PropTypes.object,
     fetchCustomers: PropTypes.func.isRequired,
     updateCustomer: PropTypes.func.isRequired,
+    deleteCustomer: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, props) => ({
@@ -99,8 +102,9 @@ const mapStateToProps = (state, props) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    fetchCustomers: () => dispatch(fetchCustomers()),
-    updateCustomer: (id, customer) => dispatch(updateCustomer(id, customer))
+    fetchCustomers: () => dispatch( fetchCustomers() ),
+    updateCustomer: (id, customer) => dispatch( updateCustomer(id, customer) ),
+    deleteCustomer: id => dispatch( deleteCustomer(id) ),
 });
 
 export default withRouter( connect(mapStateToProps, mapDispatchToProps) (CustomerContainer) );
